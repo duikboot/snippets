@@ -1,0 +1,121 @@
+
+function parse_repo_line() {
+    line=$1
+    set +e
+    echo ${line} | grep ^#
+    comment=$?
+    echo ${line} | grep ^$
+    empty=$?
+    set -e
+    NAME=''
+    # skip lines starting with #
+    if [ "${comment}" == "0" ]; then
+        continue
+    else
+        # skip empty lines
+        if [ "${empty}" == "0" ]; then
+            continue
+        else
+            NAME=$(echo ${line} | cut -d ' ' -f1)
+        fi
+    fi
+}
+
+function ensure_node() {
+    package_dir=$1
+    NAME=$2
+    if [ -f ./package.json ]; then
+        node_version=$(cat package.json | grep engine | grep -oe "[0-9]\+.[0-9]\+.[0-9]\+" || echo "")
+        echo "Requested node version: ${node_version}"
+        set +e
+        command -v node
+        check_node=$?
+        set -e
+        if [ "${check_node}" == "0" ] ; then
+            # a local node is found
+            # check if installed node version is same as in the package.json
+            mynode=$(node -v)
+            echo "current node is: ${mynode}"
+            # the output of 'command -v node' the version is prefixed with a 'v'
+            # e.g. v0.8.14
+            if [ "${mynode}" != "v${node_version}" ]; then
+                echo "WARN: Your node version is not the same as in package.json(${mynode} vs ${node_version})"
+                if [ "${node_version}x" != "x" ]; then
+                    if [ -d ~/things/${node_version} ]; then
+                        echo "Nodeenv node already found in homedir, skip node install"
+                    else
+                        echo "wait 10 seconds for you to think about installing version ${node_version})"
+                        sleep 10
+                    fi
+                fi
+            fi
+            if [ "${node_version}x" != "x" -a -d ~/things/${node_version} ]; then
+                ## mkdir -p ~/things/${node_version}/${NAME}/node_modules
+
+                cd ${package_dir}
+                rm -rf thing
+                ln -sf ~/things/${node_version} thing
+                source ./thing/bin/activate
+                echo "Activating nodeenv in ~/things/${node_version}"
+                ## rm -rf node_modules
+                ## ln -sf ~/things/${node_version}/${NAME}/node_modules .
+            else if [ -f ~/thing/bin/active ]; then
+                # if there is a default thing.. just link to it and use it.
+                ## mkdir -p ~/thing/${NAME}/node_modules
+                cd ${package_dir}
+                rm -rf thing
+                ln -sf ~/thing thing
+                ## rm -rf node_modules
+                ## ln -sf ~/thing/${NAME}/node_modules .
+            fi
+            fi
+            return 0
+        fi
+        set +e
+        command -v nodeenv
+        check_nodeenv=$?
+        set -e
+        if [ "${check_nodeenv}" != "0" ]; then
+            echo "No nodeenv detected, aborting!!"
+            exit 1
+        fi
+
+
+        if [ "${node_version}x" != "x" ]; then
+            # Does the node_version already exists in home?
+            if [ -d ~/things/${node_version} ]; then
+                echo "Nodeenv node already found in homedir, skip node install"
+            else
+                mkdir -p ~/things
+                cd ~/things
+                nodeenv -v -j 6 -n ${node_version} ${node_version} --npm=1.2.10
+            fi
+            ## mkdir -p ~/things/${node_version}/${NAME}/node_modules
+
+            cd ${package_dir}
+            rm -rf thing
+            ln -sf ~/things/${node_version} thing
+            ## rm -rf node_modules
+            ## ln -sf ~/things/${node_version}/${NAME}/node_modules .
+        else
+            echo "No specific node version required, using current active node"
+            if [ ! -f ~/thing/bin/activate  ]; then
+                mkdir -p ~/things
+                cd ~/things
+                node_version=0.8.11
+                nodeenv -v -j 6 -n ${node_version} ${node_version} --npm=1.2.10
+                ln -sf ~/things/${node_version} thing
+            fi
+            ## mkdir -p ~/thing/${NAME}/node_modules
+            cd ${package_dir}
+            rm -rf thing
+            ln -sf ~/thing thing
+            ## rm -rf node_modules
+            ## ln -sf ~/thing/${NAME}/node_modules .
+
+        fi
+        source ./thing/bin/activate
+        mynode=$(node -v)
+        echo "Activating nodeenv in ~/thing ${mynode}"
+    fi
+}
