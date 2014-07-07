@@ -1,13 +1,13 @@
 import fcntl
 from daemon import Daemon
-from informaat.daemons.utils.locking import LockFile
+from daemons.utils.locking import LockFile
 import subprocess
 import logging
 import os
 import time
 import shutil
 from lxml import etree
-from informaat.daemons.utils import helperfunctions as hf
+from daemons.utils import helperfunctions as hf
 
 LOCKFILE = "/var/lock/wbdaemon.lock"
 
