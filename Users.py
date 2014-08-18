@@ -12,20 +12,27 @@ class LdapException(Exception):
 
 class Ldap(object):
     """
-    >>> l = Ldap({'bind_pw': 'noaCces6',
-    ...           'uid_attr': 'uid',
-    ...           'base_dn': 'ou=somecompany,dc=somecompany,dc=com',
-    ...           'uri': 'ldap://localhost:389',
-    ...           'bind_dn': r'cn=administrator,dc=somecompany,dc=com'}) # raw_string!!!
+    >>> l = Ldap(
+    ...   {'bind_pw': 'L8xMikxTw4x4DHx6gCKv',
+    ...    'uid_attr': 'userPrincipalName',
+    ...    'base_dn': 'dc=yourhosting,dc=local',
+    ...    'uri': 'ldap://192.168.0.7',
+    ...    'bind_dn': r'CN=ad access,OU=Gebruikers,DC=yourhosting,DC=local'}) # raw_string!!
     >>> l.connect()
-    >>> l.get_attribute('mee', "mail")
-    'arjen.dijkstra@somecompany.nl'
-    >>> l.get_attribute('mee', "notanattribute")
+    >>> l.get_attribute('arjen.dijkstra', "mail")
+    'arjen.dijkstra@yourhosting.nl'
+    >>> l.get_attribute('arjen.dijkstra', "notanattribute")
     []
-    >>> l.get_attribute('mee', 'l')  # weird attribute name in LDAP
-    'Groningen'
-    >>> l.get_attribute('mee', 'givenName')
+    >>> l.get_attribute('arjen.dijkstra', 'givenName')
     'Arjen'
+    >>> l.get_attribute('mick.vandermostvanspijk', 'givenName')
+    'Mick'
+    >>> l.get_attribute('mick.vandermostvanspijk','mail')
+    'mick.vandermostvanspijk@yourhosting.nl'
+    >>> l._person('ireallydontexist')
+    ''
+    >>> sorted(l.get_attributes('arjen.dijkstra')) # doctest: +ELLIPSIS
+    ['accountExpires', 'badPasswordTime', 'badPwdCount', 'cn', 'codePage', ...]
     >>> l.unbind()
     >>> l = Ldap({'bind_pw': 'password',
     ...           'uid_attr': 'sAMAccountName',
@@ -52,14 +59,22 @@ class Ldap(object):
         except Exception, e:
             raise LdapException(e)
 
+    def _person(self, user, attrsonly=0):
+        """Return a ldap person."""
+        user = "%s@yourhosting.local" % user
+        person = self.l.search_s(self.cred['base_dn'], ldap.SCOPE_SUBTREE,
+                                 "%s=%s" % (self.cred['uid_attr'],
+                                            ldap.filter.escape_filter_chars(user)),
+                                 attrsonly=attrsonly)
+        if person[0][0] is None:
+            return ''
+        return person
+
     def get_attribute(self, user, attribute):
         """
-        get attribute for a user
+        get attribute for a user.
         """
-        person = self.l.search_s(self.cred['base_dn'],
-                          ldap.SCOPE_SUBTREE,
-                          "%s=%s" % (self.cred['uid_attr'],
-                              ldap.filter.escape_filter_chars(user)))
+        person = self._person(user)
         if person:
             info = person[0][1]
         else:
@@ -71,10 +86,16 @@ class Ldap(object):
             return []
         return result
 
+    def get_attributes(self, user):
+        """Get all attributes of a user."""
+        person = self._person(user, attrsonly=1)
+        return person[0][1].keys()
+
     def unbind(self):
         self.l.unbind_s()
 
 
 if __name__ == "__main__":
+
     import doctest
     doctest.testmod()
