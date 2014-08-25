@@ -55,40 +55,25 @@ class Ldap(object):
         """
         try:
             self.l = ldap.initialize(self.cred['uri'])
+            # self.l.start_tls_s()
             self.l.simple_bind_s(self.cred['bind_dn'], self.cred['bind_pw'])
         except Exception, e:
             raise LdapException(e)
 
-    def _person(self, user, attrsonly=0):
+    def get_attribute(self, user, attribute, attrsonly=0):
         """Return a ldap person."""
-        user = "%s@yourhosting.local" % user
-        person = self.l.search_s(self.cred['base_dn'], ldap.SCOPE_SUBTREE,
-                                 "%s=%s" % (self.cred['uid_attr'],
-                                            ldap.filter.escape_filter_chars(user)),
+        # user = "%s@yourhosting.local" % user
+        search_filter = "(&(objectClass=Person)(%s=%s))" % (self.cred['uid_attr'],
+                                                            ldap.filter.escape_filter_chars(user))
+        person_attibute = self.l.search_s(self.cred['base_dn'], ldap.SCOPE_SUBTREE,
+                                 search_filter,
+                                 attrlist=[attribute],
                                  attrsonly=attrsonly)
-        if person[0][0] is None:
-            return ''
-        return person
-
-    def get_attribute(self, user, attribute):
-        """
-        get attribute for a user.
-        """
-        person = self._person(user)
-        if person:
-            info = person[0][1]
-        else:
-            return []
-
-        try:
-            result = info[attribute][0]
-        except KeyError:
-            return []
-        return result
+        return person_attibute
 
     def get_attributes(self, user):
         """Get all attributes of a user."""
-        person = self._person(user, attrsonly=1)
+        person = self.get_attribute(user, attrsonly=1)
         return person[0][1].keys()
 
     def unbind(self):
@@ -97,5 +82,17 @@ class Ldap(object):
 
 if __name__ == "__main__":
 
-    import doctest
-    doctest.testmod()
+    import cProfile
+    l = Ldap(
+      {
+          # 'bind_pw': 'L8xMikxTw4x4DHx6gCKv',
+        'bind_pw': "plSRXrHRuN2b",
+       'uid_attr': 'sAMAccountName',
+       'base_dn': 'dc=yourhosting,dc=local',
+       'uri': 'ldap://192.168.0.7',
+       # 'bind_dn': r'CN=ad access,OU=Gebruikers,DC=yourhosting,DC=local'}) # raw_string!!
+       'bind_dn': 'yourhosting\\arjen.dijkstra'}) # raw_string!!
+    l.connect()
+    
+    cProfile.run("l.get_attribute('arjen.dijkstra', 'mail')")
+    cProfile.run("l.get_attributes('arjen.dijkstra', 'mail')")
