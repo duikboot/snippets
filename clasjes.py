@@ -112,7 +112,6 @@ class TestClassVariables(object):
     """docstring for TestClassVariables"""
     def __init__(self, a, b):
         self.a, self.b = a, b
-        
 
 
 if __name__ == "__main__":
