@@ -1,3 +1,4 @@
 syntax: glob
 ENV
 *pyc
+tags
