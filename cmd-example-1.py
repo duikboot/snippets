@@ -41,6 +41,7 @@ class CLI(cmd.Cmd):
     # shortcuts
     do_q = do_quit
     do_h = help
+    do_s = do_shell
 
 
 if __name__ == "__main__":
