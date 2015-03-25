@@ -108,12 +108,6 @@ class Address(Structure):
     _fields = ['hostname', 'port']
 
 
-class TestClassVariables(object):
-    """docstring for TestClassVariables"""
-    def __init__(self, a, b):
-        self.a, self.b = a, b
-
-
 class MyDict(object):
     """docstring for MyDict"""
     def __init__(self, iterable):
@@ -121,7 +115,7 @@ class MyDict(object):
         self.__update(iterable)
 
     def update(self, iterable):
-        print "Entering update"
+        print self.__class__.__name__ + " update"
         for item in iterable:
             self.items_list.append(item)
 
@@ -131,7 +125,7 @@ class MyDict(object):
 class MyDict2(MyDict):
 
     def update(self, iterable):
-        print "Other update"
+        print self.__class__.__name__ + " update"
 
         for item in iterable:
             self.items_list.insert(0, item)
