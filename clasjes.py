@@ -131,8 +131,6 @@ class MyDict2(MyDict):
             self.items_list.insert(0, item)
 
 
-
-
 if __name__ == "__main__":
     c = Circle(10)
     print c
