@@ -1,4 +1,5 @@
 syntax: glob
+yapf
 ENV
 *pyc
 tags

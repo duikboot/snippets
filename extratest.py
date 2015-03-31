@@ -1,6 +1,7 @@
 import unittest
 
-class WorkbenchTest(unittest.TestCase):
+
+class CollectionTest(unittest.TestCase):
 
     def assertList(self, result, expect):
         # Verifies lists have the same contents
@@ -9,7 +10,8 @@ class WorkbenchTest(unittest.TestCase):
         rhs = list(expect)
         rhs.sort()
         if not lhs and rhs or rhs and not lhs:
-            self.fail('One of the lists is empty: ' + str(lhs) + " != " + str(rhs))
+            self.fail(
+                'One of the lists is empty: ' + str(lhs) + " != " + str(rhs))
         for i in lhs:
             if i not in rhs:
                 self.fail(str(i) + ' is not in ' + str(rhs))
@@ -40,6 +42,7 @@ class WorkbenchTest(unittest.TestCase):
                                               str(e[1]), result, expect))
             elif isinstance(r[1], dict):
                 if not self.assertDictContents(r[1], e[1]):
-                    self.fail(base_message % ('dictionary', str(r[0]), str(r[1]),
-                                              str(e[1]), result, expect))
+                    self.fail(base_message % ('dictionary', str(r[0]),
+                                              str(r[1]), str(e[1]), result,
+                                              expect))
         return True

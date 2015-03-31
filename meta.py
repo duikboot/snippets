@@ -2,8 +2,8 @@
 
 class Meta(type):
 
-    def __init__(self, name, base, atts):
-        super(Meta, self).__init__(name, base, atts)
+    def __init__(cls, name, base, atts):
+        super(Meta, cls).__init__(name, base, atts)
         print(name)
 
 
@@ -11,13 +11,13 @@ class Child(object):
     __metaclass__ = Meta
 
     def __init__(self):
-        print ("me")
+        print("me")
 
 
 class newtype(type):
 
-    def __new__(cls, name, bases, atts):
-        clsobj = super(newtype, cls).__new__(cls, name, bases, atts)
+    def __new__(mcs, name, bases, atts):
+        clsobj = super(newtype, mcs).__new__(mcs, name, bases, atts)
         print clsobj.__name__
         print bases
         return clsobj
