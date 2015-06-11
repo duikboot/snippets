@@ -3,34 +3,33 @@ from functools import singledispatch
 
 @singledispatch
 def fun(arg, verbose=False):
-  if verbose:
-    print("let me say,", end=" ")
-  print(arg)
+    if verbose:
+        print("let me say,", end=" ")
+    print(arg)
 
 
 @singledispatch
 def fun(arg, verbose=False):
-  if verbose:
-    print("let me say,", end=" ")
-  print(arg)
+    if verbose:
+        print("let me say,", end=" ")
+    print(arg)
 
 
 @fun.register(int)
 def _(arg, verbose=False):
-  if verbose:
-    print("numbers", end=" ")
-  print(arg)
+    if verbose:
+        print("numbers", end=" ")
+    print(arg)
 
 
 @fun.register(list)
 def _(arg, verbose=False):
-  if verbose:
-    print("Enumerat this:")
-  for i, elem in enumerate(arg):
-    print(i, elem)
+    if verbose:
+        print("Enumerat this:")
+    for i, elem in enumerate(arg):
+        print(i, elem)
 
 fun("Hello world")
-fun("Hello world", verbose=True)
 fun("Hello world", verbose=True)
 fun(123, verbose=True)
 fun([1,2,3,4], verbose=True)
@@ -38,9 +37,9 @@ fun([1,2,3,4], verbose=True)
 
 @fun.register(dict)
 def haha(arg, verbose=True):
-  if verbose:
-    print("dict")
-  print(arg.keys())
+    if verbose:
+        print("dikie")
+    print(arg.keys())
 
 
 fun([1,2,3,4], verbose=True)

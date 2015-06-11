@@ -136,7 +136,6 @@ if __name__ == "__main__":
     print c
 
     d = Donut(100, 80)
-    print d
 
     temperature = Temperature.from_celsius(10)
     print temperature
