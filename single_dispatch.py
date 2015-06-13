@@ -25,7 +25,7 @@ def _(arg, verbose=False):
 @fun.register(list)
 def _(arg, verbose=False):
     if verbose:
-        print("Enumerat this:")
+        print("Enumerate this:")
     for i, elem in enumerate(arg):
         print(i, elem)
 
