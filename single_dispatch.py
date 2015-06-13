@@ -29,6 +29,7 @@ def _(arg, verbose=False):
     for i, elem in enumerate(arg):
         print(i, elem)
 
+
 fun("Hello world")
 fun("Hello world", verbose=True)
 fun(123, verbose=True)
