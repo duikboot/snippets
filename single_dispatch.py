@@ -40,7 +40,7 @@ fun([1,2,3,4], verbose=True)
 def haha(arg, verbose=True):
     if verbose:
         print("dikie")
-    print(arg.keys())
+    print(arg.items())
 
 
 fun([1,2,3,4], verbose=True)
