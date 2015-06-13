@@ -18,8 +18,8 @@ class newtype(type):
 
     def __new__(mcs, name, bases, atts):
         clsobj = super(newtype, mcs).__new__(mcs, name, bases, atts)
-        print clsobj.__name__
-        print bases
+        print(clsobj.__name__)
+        print(bases)
         return clsobj
 
 
@@ -27,14 +27,14 @@ class Child2(object):
     __metaclass__ = newtype
 
     def __init__(self):
-        print ("me")
+        print("me")
 
 
 def debugattr(cls):
     orig_getattribute = cls.__getattribute__
 
     def __getattribute__(self, name):
-        print "Get: ", name
+        print("Get: ", name)
         return orig_getattribute(self, name)
     cls.__getattribute__ = __getattribute__
 
@@ -63,13 +63,13 @@ class TryAttr(object):
 
 if __name__ == "__main__":
 
-    print "instantiate child"
+    print("instantiate child")
     a = Child()
 
-    print "instantiate child2"
+    print("instantiate child2")
     a = Child2()
     d = NewDict(a=1)
-    print d.a
+    print(d.a)
 
     d = TryAttr()
     d["a"] = 3
