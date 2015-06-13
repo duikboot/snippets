@@ -1,7 +1,7 @@
 def quicksort(lst):
     """Quicksort over a list-like sequence
     >>> a = [2,1,4,5,6]
-    >>> print quicksort(a)
+    >>> print(quicksort(a))
     [1, 2, 4, 5, 6]
     """
     if len(lst) == 0:

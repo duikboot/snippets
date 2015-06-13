@@ -122,7 +122,7 @@ def log_andor_mail(message, subject="ANNOUNCEMENT", flag=None,
     """
     delta = delta or timedelta(days=1)
     if debug:
-        print message
+        print(message)
     logger = logger or globals().get('logging', False)
     logfunc = logger and getattr(logger, level, False)
     if logfunc:

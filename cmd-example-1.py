@@ -11,11 +11,11 @@ class CLI(cmd.Cmd):
         self.prompt = '> '
 
     def do_hello(self, arg):
-        print "hello again", arg, "!"
+        print("hello again", arg, "!")
 
     def help_hello(self):
-        print "syntax: hello [message]",
-        print "-- prints a hello message"
+        print("syntax: hello [message]",)
+        print("-- prints a hello message")
 
     def do_quit(self, arg):
         sys.exit(0)
@@ -26,17 +26,17 @@ class CLI(cmd.Cmd):
                                stderr=subprocess.PIPE)
         stdout, stderr = cmd.communicate()
         if not stderr:
-            print stdout
+            print(stdout)
         else:
-            print stderr
+            print(stderr)
 
     def help_shell(self):
-        print "syntax: ! cmd"
-        print "--- print cmd"
+        print("syntax: ! cmd")
+        print("--- print cmd")
 
     def help_quit(self):
-        print "syntax: quit",
-        print "-- terminates the application"
+        print("syntax: quit",)
+        print("-- terminates the application")
 
     # shortcuts
     do_q = do_quit

@@ -177,7 +177,7 @@ if __name__ == "__main__":
         config = parse_config_file('tidyconf.conf')
     except:
         config = dict(show_errors='999999', doctype="auto", force_output=1)
-    print config
+    print(config)
     template = "tests/testtemplates/DE-setEffectiveDate.html"
     ignore = {'accessibility':
                 ['[2.1.1.4]',
@@ -199,9 +199,9 @@ if __name__ == "__main__":
     #import mail_user
     #mail_user.mail_validation("arjen.dijkstra@informaat.nl",
             #errors + warnings + accessibility)
-    print "Errors: %r" % errors
-    print "Warnings: %r" % warnings
-    print "Accessibility: %r" % accessibility
+    print("Errors: %r" % errors)
+    print("Warnings: %r" % warnings)
+    print("Accessibility: %r" % accessibility)
     if not validator._errors and not validator._warnings:
-        print "NO ERRORS"
+        print("NO ERRORS")
         f = open('test.html', 'w').write(validator.get_document())

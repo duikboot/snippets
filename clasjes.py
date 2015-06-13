@@ -115,7 +115,7 @@ class MyDict(object):
         self.__update(iterable)
 
     def update(self, iterable):
-        print self.__class__.__name__ + " update"
+        print(self.__class__.__name__ + " update")
         for item in iterable:
             self.items_list.append(item)
 
@@ -125,7 +125,7 @@ class MyDict(object):
 class MyDict2(MyDict):
 
     def update(self, iterable):
-        print self.__class__.__name__ + " update"
+        print(self.__class__.__name__ + " update")
 
         for item in iterable:
             self.items_list.insert(0, item)
@@ -133,18 +133,18 @@ class MyDict2(MyDict):
 
 if __name__ == "__main__":
     c = Circle(10)
-    print c
+    print(c)
 
     d = Donut(100, 80)
 
     temperature = Temperature.from_celsius(10)
-    print temperature
+    print(temperature)
 
     kelvin = Temperature.from_kelvin(100)
-    print kelvin
+    print(kelvin)
 
     fahrenheit = Temperature.from_fahrenheit(100)
-    print fahrenheit
+    print(fahrenheit)
 
     stock = Stock("ACME")
-    print stock.name
+    print(stock.name)

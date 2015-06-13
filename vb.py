@@ -52,7 +52,7 @@ def test_it(repo):
     """Run test of repo and if necessary start mongo"""
     dir_ = os.getcwd()
     os.chdir(repo)
-    print os.getcwd()
+    print(os.getcwd())
     retcode = 0
     if os.path.exists('testit'):
         retcode = subprocess.call('./testit')
@@ -89,7 +89,7 @@ class ManageRepo(Repo):
             self.hg_branch(newbranch)
             return 'succes'
         except Exception, e:
-            print e
+            print(e)
             return 'failure'
 
     def update(self, branch):
@@ -111,7 +111,7 @@ class ManageRepo(Repo):
             message = self.hg_command("merge", reference)
             return message
         except Exception, e:
-            print "Aaaah a merge failed has occured", e
+            print("Aaaah a merge failed has occured", e)
             return 'Failure'
 
     def push_newbranch(self):
@@ -120,7 +120,7 @@ class ManageRepo(Repo):
         try:
             self.hg_command('push', '--new-branch')
         except Exception, e:
-            print e
+            print(e)
         return
 
     def get_username(self):

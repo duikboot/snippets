@@ -38,7 +38,7 @@ class Ldap(object):
     >>> try:
     ...     l.connect()
     ... except LdapException, e:
-    ...     print "Exception: %r" % e
+    ...     print("Exception: %r" % e)
     Exception: LdapException()
     """
 
@@ -86,8 +86,8 @@ if __name__ == "__main__":
     #    # 'bind_dn': r'CN=ad access,OU=Gebruikers,DC=yourhosting,DC=local'}) # raw_string!!
     #    'bind_dn': 'yourhosting\\arjen.dijkstra'}) # raw_string!!
     # l.connect()
-    
+
     # cProfile.run("l.get_attribute('arjen.dijkstra', 'mail')")
-    # print l.get_attribute('arjen.dijkstra', 'mail')
+    # print(l.get_attribute('arjen.dijkstra', 'mail'))
     import doctest
     doctest.testmod()
