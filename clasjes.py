@@ -39,13 +39,12 @@ class Donut(Circle):
 
 class Temperature(object):
 
-    # def __new__(cls, c):
-    #     self = object.__new__(cls)
-    #     self.celsius = c
-    #     return self
+    __slots__ = []
 
-    def __init__(self, c):
-        self._celsius = c
+    def __new__(cls, c):
+        cls.celsius = c
+        self = object.__new__(cls)
+        return self
 
     @classmethod
     def from_celsius(cls, c):
