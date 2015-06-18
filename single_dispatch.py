@@ -1,6 +1,10 @@
 from functools import singledispatch
 
 
+class Test:
+    pass
+
+
 @singledispatch
 def fun(arg, verbose=False):
     if verbose:
@@ -8,10 +12,10 @@ def fun(arg, verbose=False):
     print(arg)
 
 
-@singledispatch
-def fun(arg, verbose=False):
+@fun.register(Test)
+def _(arg, verbose=False):
     if verbose:
-        print("let me say,", end=" ")
+        print("I'm a class!!")
     print(arg)
 
 
@@ -33,7 +37,10 @@ def _(arg, verbose=False):
 fun("Hello world")
 fun("Hello world", verbose=True)
 fun(123, verbose=True)
-fun([1,2,3,4], verbose=True)
+fun([1, 2, 3, 4], verbose=True)
+
+test = Test()
+fun(test, verbose=True)
 
 
 @fun.register(dict)
@@ -43,8 +50,8 @@ def haha(arg, verbose=True):
     print(arg.items())
 
 
-fun([1,2,3,4], verbose=True)
-fun({1:2}, verbose=True)
+fun([1, 2, 3, 4], verbose=True)
+fun({1: 2}, verbose=True)
 fun.dispatch(int)
 fun.dispatch(float)
 fun(1.4, verbose=True)
