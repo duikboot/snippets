@@ -20,14 +20,14 @@ def _(arg, verbose=False):
 
 
 @fun.register(int)
-def _(arg, verbose=False):
+def _int(arg, verbose=False):
     if verbose:
         print("numbers", end=" ")
     print(arg)
 
 
 @fun.register(list)
-def _(arg, verbose=False):
+def _list(arg, verbose=False):
     if verbose:
         print("Enumerate this:")
     for i, elem in enumerate(arg):

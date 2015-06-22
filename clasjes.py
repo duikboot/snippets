@@ -112,6 +112,7 @@ class MyDict(object):
     def __init__(self, iterable):
         self.items_list = []
         self.__update(iterable)
+        self._update = 1
 
     def update(self, iterable):
         print(self.__class__.__name__ + " update")
@@ -131,8 +132,8 @@ class MyDict2(MyDict):
 
 
 if __name__ == "__main__":
-    c = Circle(10)
-    print(c)
+    circle = Circle(10)
+    print(circle)
 
     d = Donut(100, 80)
 

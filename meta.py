@@ -7,24 +7,22 @@ class Meta(type):
         print(name)
 
 
-class Child(object):
-    __metaclass__ = Meta
+class Child(metaclass=Meta):
 
     def __init__(self):
         print("me")
 
 
-class newtype(type):
+class NewType(type):
 
     def __new__(mcs, name, bases, atts):
-        clsobj = super(newtype, mcs).__new__(mcs, name, bases, atts)
+        clsobj = super(NewType, mcs).__new__(mcs, name, bases, atts)
         print(clsobj.__name__)
         print(bases)
         return clsobj
 
 
-class Child2(object):
-    __metaclass__ = newtype
+class Child2(metaclass=NewType):
 
     def __init__(self):
         print("me")

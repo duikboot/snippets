@@ -13,3 +13,7 @@ def func(a, b, c):
 
 p_func = functools.partial(func, 10)
 print(p_func(3, 4))
+
+l = ["a", "bb", "f", "sdf"]
+print(sorted(l, key=len))
+print(sorted(l, key=functools.partial(len)))
