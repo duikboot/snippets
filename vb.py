@@ -2,11 +2,10 @@
 
 import os
 import subprocess
-import sys
 
 from hgapi.hgapi import Repo
 
-#TODO: Create new Repo object for creating new branch?
+# TODO: Create new Repo object for creating new branch?
 '''
 File: new_branch.py
 Author: Arjen Dijkstra
@@ -35,7 +34,7 @@ Description: Create new branches for all repos, and some other mercurial tasks
     ## hg push --new-branch
 '''
 
-## To make some lines more readable
+# To make some lines more readable
 JOIN = os.path.join
 
 
@@ -88,7 +87,7 @@ class ManageRepo(Repo):
         try:
             self.hg_branch(newbranch)
             return 'succes'
-        except Exception, e:
+        except Exception as e:
             print(e)
             return 'failure'
 
@@ -110,7 +109,7 @@ class ManageRepo(Repo):
         try:
             message = self.hg_command("merge", reference)
             return message
-        except Exception, e:
+        except Exception as e:
             print("Aaaah a merge failed has occured", e)
             return 'Failure'
 
@@ -119,11 +118,9 @@ class ManageRepo(Repo):
         hg push --new-branch"""
         try:
             self.hg_command('push', '--new-branch')
-        except Exception, e:
+        except Exception as e:
             print(e)
         return
 
     def get_username(self):
         return self.username
-
-
